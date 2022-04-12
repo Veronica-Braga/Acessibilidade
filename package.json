@@ -1,0 +1,21 @@
+{
+  "name": "acessibilidade",
+  "version": "1.0.0",
+  "description": "Projeto do 4 periodo de ADS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node.js"
+  ],
+  "author": "Verônica Braga",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3"
+  },
+  "devDependencies": {
+    "jest": "^27.5.1",
+    "nodemon": "^2.0.15"
+  }
+}
