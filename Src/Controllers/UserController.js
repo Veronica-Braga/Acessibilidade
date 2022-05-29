@@ -1,5 +1,27 @@
 const jwt = require('jsonwebtoken');
 const md5 = require('crypto-md5');
+const User = require('../Models/User');
+
+
+exports.createUser = async (req, res) => {
+    const { Name,Email,Password,Birthday,Sex,PhoneNumber } = req.body;
+
+    try {
+        const newUser = await User.create({
+            Name,
+            Email,
+            Password:md5(Password),
+            Birthday,
+            Sex,
+            PhoneNumber
+        })
+        res.status(201).json(newUser);
+    } catch (err) {
+        console.log("Deu Ruim...", err);
+        res.status(500).send(err.message)
+    }
+}
+
 
 exports.signin = (req, res) => {
     const { user } = req.body;
@@ -25,3 +47,4 @@ exports.signin = (req, res) => {
         Token: token
     })
 }
+
