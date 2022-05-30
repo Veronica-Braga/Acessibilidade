@@ -4,48 +4,48 @@ const  Deficiency = require('./Deficiency');
 const  Accompanied = require('./Accompanied');
 const  Experience = require('./Experience');
 
-const User = sequelize.define('User', {
-    UserId: {
+const User = sequelize.define('tb_user', {
+    userid: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false
     },
-    Name: {
+    name: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    Email: {
+    email: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    Password: {
+    password: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    Birthday: {
+    birthday: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    Sex: {
+    sex: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    PhoneNumber: {
+    phonenumber: {
         type: DataTypes.STRING,
         allowNull:false
     },
-    AccompaniedId: {
+    accompaniedid: {
         type: DataTypes.INTEGER,
         allowNull: true,
         references: {
             model: Accompanied,
-            key: "AccompaniedId"
+            key: "accompaniedid"
         }
     }
 })
 
-User.hasOne(Accompanied,{as: 'Accompanied' ,foreignKey: "AccompaniedId"});
-User.hasMany(Experience,{as: 'Experience',foreignKey: "ExperienceId"});
+User.hasOne(Accompanied,{as: 'accompanied' ,foreignKey: "accompaniedid"});
+User.hasMany(Experience,{as: 'experience',foreignKey: "experienceid"});
 
 module.exports = User

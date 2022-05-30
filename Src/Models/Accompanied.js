@@ -2,7 +2,7 @@ const sequelize = require('../../db');
 const { DataTypes } = require("sequelize")
 const User = require('./User');
 
-const Accompanied = sequelize.define('Accompanied', {
+const Accompanied = sequelize.define('TB_Accompanied', {
     AccompaniedId: {
         type: DataTypes.INTEGER,
         primaryKey: true,

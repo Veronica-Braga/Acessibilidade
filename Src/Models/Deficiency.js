@@ -2,7 +2,7 @@ const sequelize = require('../../db');
 const { DataTypes } = require('sequelize');
 const User = require('./User');
 
-const Deficiency = sequelize.define('Deficiency', {
+const Deficiency = sequelize.define('TB_Deficiency', {
     DeficiencyId: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -10,7 +10,7 @@ const Deficiency = sequelize.define('Deficiency', {
         allowNull: false
     },
     Type: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false
     },
     degree: {

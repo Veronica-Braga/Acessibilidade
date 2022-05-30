@@ -4,7 +4,7 @@ const  Deficiency = require('./Deficiency');
 const  User = require('./User');
 
 
-const UserDeficiency = sequelize.define('UserDeficiency', {
+const UserDeficiency = sequelize.define('TB_UserDeficiency', {
     UserId: {
         type: Sequelize.INTEGER,
         autoIncrement: true,

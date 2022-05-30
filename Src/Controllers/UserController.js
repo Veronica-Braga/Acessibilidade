@@ -4,17 +4,18 @@ const User = require('../Models/User');
 
 
 exports.createUser = async (req, res) => {
-    const { Name,Email,Password,Birthday,Sex,PhoneNumber } = req.body;
+    const { name,email,password,birthday,sex,phonenumber } = req.body;
 
     try {
         const newUser = await User.create({
-            Name,
-            Email,
-            Password:md5(Password),
-            Birthday,
-            Sex,
-            PhoneNumber
+            name,
+            email,
+            password:md5(password),
+            birthday,
+            sex,
+            phonenumber
         })
+
         res.status(201).json(newUser);
     } catch (err) {
         console.log("Deu Ruim...", err);
@@ -23,28 +24,81 @@ exports.createUser = async (req, res) => {
 }
 
 
-exports.signin = (req, res) => {
+exports.signin = async (req, res) => {
     const { user } = req.body;
 
-    const fakeUser = {
-        login: 'loginFake',
-        pass: md5('senhaFake')
-    }
+    const user_db = await User.findOne({
+        where: {
+           email: user.login
+       }
+   })
 
-    if (user.login !== fakeUser.login || md5(user.pass) !== fakeUser.pass) {
-        res.status(401).json({ message: 'login ou senha incorreto' });
-    }
+   if (user.login === user_db.email && md5(user.password) === user_db.password) {
 
     const jwtPayload = {
-        login: user.login,
+        name: user_db.name,
+        email: user_db.email,
         role: 'Manager',
-        idNumber:'ABC-1235'
+        idNumber: user_db.userid
     }
-
     const token = jwt.sign(jwtPayload, process.env.JWT_KEY);
     res.json({
         message: 'Usuario logado com sucesso',
         Token: token
     })
+    } else {
+        res.status(401).json({ message: 'login ou senha incorreto' });
+    }
+}
+exports.UpdateUser = async (req, res) => {
+    const { name,email,birthday,sex,phonenumber } = req.body;
+    const token = req.headers.authorization.split(' ')[1];
+    var decode = jwt.decode(token, process.env.JWT_KEY);
+    try {
+        await User.update({
+            name,
+            email,
+            birthday,
+            sex,
+            phonenumber
+        }, {
+            where: {
+                userid: decode.idNumber
+            }
+        })
+
+        res.status(200).json({
+            "Message": "Usuario atualizado com sucesso"
+        });
+    } catch (err) {
+        console.log("Deu Ruim...", err);
+        res.status(500).send(err.message)
+    }
+}
+exports.DeleteUser = async (req, res) => {
+    const token = req.headers.authorization.split(' ')[1];
+    var decode = jwt.decode(token, process.env.JWT_KEY);
+    try {
+        var userDeleted = await User.destroy({
+            where: {
+                userid: decode.idNumber
+            }
+        })
+
+        res.status(200).json({
+            "Message": "Usuario deletado com sucesso",
+            "User": userDeleted
+        });
+    } catch (err) {
+        console.log("Deu Ruim...", err);
+        res.status(500).send(err.message)
+    }
+}
+
+exports.list = async (req, res) => {
+    const ListUsers = await User.findAll({
+      attributes: { exclude: ['password','userid'] }
+    })
+    res.json(ListUsers)
 }
 

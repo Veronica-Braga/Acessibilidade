@@ -2,7 +2,7 @@ const sequelize = require('../../db');
 const { DataTypes } = require("sequelize")
 const User = require('./User');
 
-const Experience = sequelize.define('Experience', {
+const Experience = sequelize.define('TB_Experience', {
     ExperienceId: {
         type: DataTypes.INTEGER,
         primaryKey: true,
