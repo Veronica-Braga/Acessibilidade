@@ -14,4 +14,6 @@ module.exports = (app) => {
     
     app.route('/accompanied')
         .post(AccompaniedControllers.CreateAccompanied)
+        .put(AccompaniedControllers.UpdateAccompanied)
+        .delete(AccompaniedControllers.DeleteAccompanied)
 }
