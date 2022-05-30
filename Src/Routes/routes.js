@@ -2,7 +2,8 @@ const authenticate = require('../Middlewares/auth')
 const userControllers = require("../Controllers/UserController");
 const AccompaniedControllers = require("../Controllers/AccompaniedController");
 const Deficiencycontrollers = require("../Controllers/DeficiencyController");
-    
+const ExperienceControllers = require("../Controllers/ExperienceController");
+
 module.exports = (app) => {
 
     app.route('/signin')
@@ -28,4 +29,14 @@ module.exports = (app) => {
         .post(authenticate, Deficiencycontrollers.CreateDeficiency)
         .put(authenticate, Deficiencycontrollers.UpdateDeficiency)
         .delete(authenticate, Deficiencycontrollers.DeleteDeficiency)
+    
+        app.route('/localexperience')
+        .get(authenticate, ExperienceControllers.listLocalExperiences)
+    
+    
+        app.route('/experience')
+        .get(authenticate, ExperienceControllers.listMyExperiences)
+        .post(authenticate, ExperienceControllers.createExperience)
+        .put(authenticate, ExperienceControllers.UpdateExperience)
+        .delete(authenticate, ExperienceControllers.DeleteExperience)
 }
