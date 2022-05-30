@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken');
 const md5 = require('crypto-md5');
 const User = require('../Models/User');
-
+const Accompanied = require('../Models/Accompanied');
 
 exports.createUser = async (req, res) => {
-    const { name,email,password,birthday,sex,phonenumber } = req.body;
+    const { name,email,password,birthday,sex,phonenumber,accompaniedid } = req.body;
 
     try {
         const newUser = await User.create({
@@ -13,7 +13,8 @@ exports.createUser = async (req, res) => {
             password:md5(password),
             birthday,
             sex,
-            phonenumber
+            phonenumber,
+            accompaniedid
         })
 
         res.status(201).json(newUser);
@@ -51,7 +52,7 @@ exports.signin = async (req, res) => {
     }
 }
 exports.UpdateUser = async (req, res) => {
-    const { name,email,birthday,sex,phonenumber } = req.body;
+    const { name,email,birthday,sex,phonenumber,accompaniedid } = req.body;
     const token = req.headers.authorization.split(' ')[1];
     var decode = jwt.decode(token, process.env.JWT_KEY);
     try {
@@ -60,7 +61,8 @@ exports.UpdateUser = async (req, res) => {
             email,
             birthday,
             sex,
-            phonenumber
+            phonenumber,
+            accompaniedid
         }, {
             where: {
                 userid: decode.idNumber
@@ -97,6 +99,9 @@ exports.DeleteUser = async (req, res) => {
 
 exports.list = async (req, res) => {
     const ListUsers = await User.findAll({
+        include: [{
+            model: Accompanied
+          }],
       attributes: { exclude: ['password','userid'] }
     })
     res.json(ListUsers)

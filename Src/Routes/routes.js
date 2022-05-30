@@ -1,14 +1,17 @@
 const authenticate = require('../Middlewares/auth')
+const userControllers = require("../Controllers/UserController");
+const AccompaniedControllers = require("../Controllers/AccompaniedController");
 
 module.exports = (app) => {
-    const userControllers = require("../Controllers/UserController");
 
     app.route('/signin')
         .get(userControllers.signin)
-    app.route('/createUser')
-        .post(userControllers.createUser)
     app.route('/user')
+        .post(userControllers.createUser)
         .get(authenticate, userControllers.list)
         .put(authenticate, userControllers.UpdateUser)
         .delete(authenticate, userControllers.DeleteUser)
+    
+    app.route('/accompanied')
+        .post(AccompaniedControllers.CreateAccompanied)
 }

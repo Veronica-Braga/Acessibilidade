@@ -45,7 +45,7 @@ const User = sequelize.define('tb_user', {
     }
 })
 
-User.hasOne(Accompanied,{as: 'accompanied' ,foreignKey: "accompaniedid"});
-User.hasMany(Experience,{as: 'experience',foreignKey: "experienceid"});
+User.belongsTo(Accompanied,{foreignKey: "accompaniedid"});
+User.hasMany(Experience,{foreignKey: "experienceid"});
 
 module.exports = User

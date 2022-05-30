@@ -2,22 +2,22 @@ const sequelize = require('../../db');
 const { DataTypes } = require("sequelize")
 const User = require('./User');
 
-const Accompanied = sequelize.define('TB_Accompanied', {
-    AccompaniedId: {
+const Accompanied = sequelize.define('tb_accompanied', {
+    accompaniedid: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false
     },
-    Name: {
+    name: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    Birthday: {
+    birthday: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    Sex: {
+    sex: {
         type: DataTypes.STRING,
         allowNull: false
     }
