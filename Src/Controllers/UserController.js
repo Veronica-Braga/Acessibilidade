@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const md5 = require('crypto-md5');
 const User = require('../Models/User');
 const Accompanied = require('../Models/Accompanied');
+const Deficiency = require('../Models/Deficiency');
 
 exports.createUser = async (req, res) => {
     const { name,email,password,birthday,sex,phonenumber,accompaniedid } = req.body;
@@ -64,6 +65,7 @@ exports.UpdateUser = async (req, res) => {
             phonenumber,
             accompaniedid
         }, {
+            include: [{ model: Deficiency}],
             where: {
                 userid: decode.idNumber
             }
@@ -99,11 +101,22 @@ exports.DeleteUser = async (req, res) => {
 
 exports.list = async (req, res) => {
     const ListUsers = await User.findAll({
-        include: [{
-            model: Accompanied
-          }],
+        include: ['Deficiency','Accompanied'],
       attributes: { exclude: ['password','userid'] }
     })
     res.json(ListUsers)
 }
 
+exports.getUser = async (req, res) => {
+    const { userid } = req.headers
+    try{
+      const user_bd = await User.findByPk(userid, {
+        include: ['Deficiency','Accompanied'],
+          attributes: { exclude: ['password'] }
+      })
+      res.json({message: 'Ok, deu certo!', user: user_bd})
+    } catch (err) {
+      console.log(err)
+    }
+  
+  }

@@ -2,15 +2,15 @@ const sequelize = require('../../db');
 const { DataTypes } = require('sequelize');
 const User = require('./User');
 
-const Deficiency = sequelize.define('TB_Deficiency', {
-    DeficiencyId: {
+const Deficiency = sequelize.define('tb_deficiency', {
+    deficiencyid: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false
     },
-    Type: {
-        type: DataTypes.INTEGER,
+    type: {
+        type: DataTypes.STRING,
         allowNull: false
     },
     degree: {

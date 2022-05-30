@@ -1,13 +1,15 @@
 const Accompanied = require('../Models/Accompanied');
 const User = require('../Models/User');
+const  Deficiency = require('../Models/Deficiency');
 
 exports.CreateAccompanied = async (req,res) => {
-    const { name,birthday,sex} = req.body;
+    const { name,birthday,sex, deficiencyid } = req.body;
     try {
         const newAccompanied = await Accompanied.create({
             name,
             birthday,
-            sex
+            sex,
+            deficiencyid
         })
 
         res.status(201).json(newAccompanied);
@@ -41,10 +43,10 @@ exports.UpdateAccompanied = async (req, res) => {
 }
 
 exports.DeleteAccompanied = async (req, res) => {
-    const { accompaniedid } = req.body;
+    const { accompaniedid } = req.headers;
 
     try {
-        var userDeleted = await Accompanied.destroy({
+        var deficiencyDeleted = await Accompanied.destroy({
             where: {
                 accompaniedid: accompaniedid
             }
@@ -59,3 +61,15 @@ exports.DeleteAccompanied = async (req, res) => {
         res.status(500).send(err.message)
     }
 }
+exports.getAccompanied = async (req, res) => {
+    const { accompaniedid } = req.headers
+    try{
+      const accompanied_bd = await Accompanied.findByPk(accompaniedid, {
+        include: [{ model: Deficiency}],
+      })
+      res.json({message: 'Ok, deu certo!', user: accompanied_bd})
+    } catch (err) {
+      console.log(err)
+    }
+  
+  }

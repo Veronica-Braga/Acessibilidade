@@ -1,6 +1,6 @@
 const sequelize = require('../../db');
 const { DataTypes } = require("sequelize")
-const User = require('./User');
+const Deficiency = require('./Deficiency');
 
 const Accompanied = sequelize.define('tb_accompanied', {
     accompaniedid: {
@@ -20,6 +20,16 @@ const Accompanied = sequelize.define('tb_accompanied', {
     sex: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    deficiencyid:{
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+            model: Deficiency,
+            key: "deficiencyid"
+        }
     }
 })
+Accompanied.belongsTo(Deficiency, { foreignKey: "deficiencyid" });
+
 module.exports = Accompanied

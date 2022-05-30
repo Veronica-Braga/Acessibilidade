@@ -42,10 +42,18 @@ const User = sequelize.define('tb_user', {
             model: Accompanied,
             key: "accompaniedid"
         }
+    },
+    deficiencyid:{
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+            model: Deficiency,
+            key: "deficiencyid"
+        }
     }
 })
-
-User.belongsTo(Accompanied,{foreignKey: "accompaniedid"});
+User.belongsTo(Deficiency,{as: 'Deficiency' ,foreignKey: "deficiencyid"});
+User.belongsTo(Accompanied,{as: 'Accompanied', foreignKey: "accompaniedid"});
 User.hasMany(Experience,{foreignKey: "experienceid"});
 
 module.exports = User
